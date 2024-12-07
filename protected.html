@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protected Page</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .content-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px;
+            max-width: 600px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-container">
+        <h2>Welcome to the Protected Page</h2>
+        <p>You can now upload files or run programs.</p>
+        <!-- File upload form -->
+        <form id="uploadForm">
+            <label for="fileInput">Choose a file to upload:</label>
+            <input type="file" id="fileInput" title="Choose a file to upload" />
+            <button type="button" onclick="uploadFile()">Upload</button>
+        </form>
+        <div id="uploadStatus"></div>
+    </div>
+    <script src="upload.js"></script>
+</body>
+</html>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Random Facts</title>
-    <meta http-equiv="refresh" content="3600">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Facts - Login</title>
     <style>
         :root {
             --bg-color: #f0f2f5;
@@ -21,7 +22,7 @@
             background: var(--bg-color);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
@@ -29,31 +30,24 @@
             transition: background 0.3s;
         }
 
-        header {
-            width: 100%;
-            padding: 1rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .fact-container {
+        .login-container {
             background: var(--container-bg);
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 2px 4px;
-            max-width: 600px;
+            max-width: 400px;
             text-align: center;
-            margin: 2rem;
         }
 
-        .share-buttons {
-            margin-top: 1rem;
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
+        .login-container input {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
 
-        .share-button {
+        .login-container button {
             padding: 0.5rem 1rem;
             border-radius: 5px;
             border: none;
@@ -61,187 +55,15 @@
             color: white;
             cursor: pointer;
         }
-
-        footer {
-            width: 100%;
-            padding: 1rem;
-            text-align: center;
-            border-top: 1px solid rgba(0,0,0,0.1);
-        }
-
-        #theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.5rem;
-            border-radius: 50%;
-            border: none;
-            background: var(--container-bg);
-            cursor: pointer;
-        }
-
-        @keyframes fade {
-            0% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .loading {
-            animation: fade 1s infinite alternate;
-        }
-
-        /* Hover effects */
-        .share-button:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-            transition: all 0.2s ease;
-        }
-
-        #theme-toggle:hover {
-            background: var(--text-color);
-            color: var(--bg-color);
-            transform: rotate(180deg);
-            transition: all 0.3s ease;
-        }
-
-        /* Active states */
-        .share-button:active {
-            transform: translateY(0);
-        }
-
-        #theme-toggle:active {
-            transform: scale(0.95) rotate(180deg);
-        }
-
-        /* State transitions */
-        .share-button,
-        #theme-toggle {
-            transition: transform 0.2s ease, 
-                      background-color 0.3s ease,
-                      color 0.3s ease,
-                      opacity 0.2s ease;
-        }
-
-        /* Loading spinner */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--text-color);
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 1rem auto;
-            display: none;
-        }
-
-        .loading .spinner {
-            display: block;
-        }
-
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            .spinner,
-            .loading,
-            #theme-toggle {
-                animation: none;
-                transition: none;
-            }
-        }
-
-        /* Focus states */
-        .share-button:focus,
-        #theme-toggle:focus {
-            outline: 2px solid var(--text-color);
-            outline-offset: 2px;
-        }
-
-        /* Responsive styles */
-        @media (max-width: 600px) {
-            .fact-container {
-                margin: 1rem;
-                padding: 1rem;
-            }
-
-            header h1 {
-                font-size: 1.5rem;
-            }
-
-            .share-buttons {
-                flex-direction: column;
-            }
-
-            #theme-toggle {
-                top: 0.5rem;
-                right: 0.5rem;
-            }
-        }
-
-        /* Loading state */
-        .fact-container.loading::after {
-            content: "Loading...";
-            display: block;
-            margin-top: 1rem;
-            font-style: italic;
-            color: var(--text-color);
-            opacity: 0.7;
-        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Random Facts</h1>
-        <p>Fact #<span id="fact-counter">1</span></p>
-    </header>
-
-    <div class="fact-container">
-        <p>Did you know that the largest T-Rex skeleton ever discovered was named Sue?</p>
-        <div class="share-buttons">
-            <button class="share-button" onclick="share('twitter')">Tweet</button>
-            <button class="share-button" onclick="share('facebook')">Share</button>
-        </div>
+    <div class="login-container">
+        <h2>Enter Password</h2>
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="checkPassword()">Login</button>
     </div>
-
-    <button id="theme-toggle" onclick="toggleTheme()">🌓</button>
-
-    <footer>
-        <p>Next fact in: <span id="countdown">60:00</span></p>
-    </footer>
-
-    <script>
-        let counter = parseInt(localStorage.getItem('factCounter') || '1');
-        document.getElementById('fact-counter').textContent = counter;
-
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        function share(platform) {
-            const fact = document.querySelector('.fact-container p').textContent;
-            const url = encodeURIComponent(window.location.href);
-            if (platform === 'twitter') {
-                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(fact)}&url=${url}`);
-            } else {
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
-            }
-        }
-
-        function updateCountdown() {
-            const refresh = 3600;
-            let timeLeft = refresh;
-            setInterval(() => {
-                timeLeft -= 1;
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                document.getElementById('countdown').textContent = 
-                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }, 1000);
-        }
-
-        updateCountdown();
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
